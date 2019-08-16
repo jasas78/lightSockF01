@@ -1,0 +1,1 @@
+../../lightSock/lightsocks/cmd/e2e_test.go

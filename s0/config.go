@@ -1,0 +1,1 @@
+../../lightSock/lightsocks/cmd/config.go

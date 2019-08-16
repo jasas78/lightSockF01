@@ -1,0 +1,1 @@
+../../lightSock/lightsocks/password_test.go

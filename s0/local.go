@@ -1,0 +1,1 @@
+../../lightSock/lightsocks/local.go

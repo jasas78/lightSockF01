@@ -1,0 +1,1 @@
+../src0/lightsocks_local_main.go
