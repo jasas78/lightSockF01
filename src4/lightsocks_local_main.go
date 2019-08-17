@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/gwuhaolin/lightsocks"
-	"github.com/gwuhaolin/lightsocks/cmd"
+	//"github.com/gwuhaolin/lightsocks"
+	//"github.com/gwuhaolin/lightsocks/cmd"
 	"log"
 	"net"
 )
@@ -18,14 +18,16 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 
 	// 默认配置
-	config := &cmd.Config{
+	//config := &cmd.Config{
+	config := &Config{
 		ListenAddr: DefaultListenAddr,
 	}
 	config.ReadConfig()
 	config.SaveConfig()
 
 	// 启动 local 端并监听
-	lsLocal, err := lightsocks.NewLsLocal(config.Password, config.ListenAddr, config.RemoteAddr)
+	//lsLocal, err := lightsocks.NewLsLocal(config.Password, config.ListenAddr, config.RemoteAddr)
+	lsLocal, err := NewLsLocal(config.Password, config.ListenAddr, config.RemoteAddr)
 	if err != nil {
 		log.Fatalln(err)
 	}

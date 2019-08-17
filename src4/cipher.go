@@ -1,4 +1,5 @@
-package lightsocks
+//package lightsocks
+package main
 
 type cipher struct {
 	// 编码用的密码

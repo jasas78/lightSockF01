@@ -1,4 +1,5 @@
-package cmd
+//package cmd
+package main
 
 import (
 	"encoding/json"

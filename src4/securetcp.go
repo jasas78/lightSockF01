@@ -1,4 +1,5 @@
-package lightsocks
+//package lightsocks
+package main
 
 import (
 	"io"
