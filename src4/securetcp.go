@@ -18,12 +18,12 @@ type _STsecureTCPConn struct {
 }
 
 // 从输入流里读取加密过的数据，解密后把原数据放到bs里
-func (secureSocket *_STsecureTCPConn) DecodeRead(bs []byte) (n int, err error) {
-	n, err = secureSocket.Read(bs)
-	if err != nil {
+func (secureSocket *_STsecureTCPConn) DecodeRead(bs []byte) (___Vn int, ___Verr1 error) {
+	___Vn, ___Verr1 = secureSocket.Read(bs)
+	if ___Verr1 != nil {
 		return
 	}
-	secureSocket.Cipher._Fdecode(bs[:n])
+	secureSocket.Cipher._Fdecode(bs[:___Vn])
 	return
 }
 
@@ -86,9 +86,9 @@ func (secureSocket *_STsecureTCPConn) DecodeCopy(dst io.Writer) error {
 
 // see net.DialTCP
 func DialTCPSecure(raddr *net.TCPAddr, ___Vcipher1 *_STcipher) (*_STsecureTCPConn, error) {
-	remoteConn, err := net.DialTCP("tcp", nil, raddr)
-	if err != nil {
-		return nil, err
+	remoteConn, __Verr2 := net.DialTCP("tcp", nil, raddr)
+	if __Verr2 != nil {
+		return nil, __Verr2
 	}
 	return &_STsecureTCPConn{
 		ReadWriteCloser: remoteConn,
@@ -97,28 +97,29 @@ func DialTCPSecure(raddr *net.TCPAddr, ___Vcipher1 *_STcipher) (*_STsecureTCPCon
 }
 
 // see net.ListenTCP
-func _FlistenSecureTCP(laddr *net.TCPAddr, ___Vcipher2 *_STcipher, handleConn func(localConn *_STsecureTCPConn), didListen func(listenAddr net.Addr)) error {
-	listener, err := net.ListenTCP("tcp", laddr)
-	if err != nil {
-		return err
+func _FlistenSecureTCP(laddr *net.TCPAddr, ___Vcipher2 *_STcipher, 
+___FhandleConn1 func(___VlocalConn2 *_STsecureTCPConn), ___FdidListen2 func(___VlistenAddr8 net.Addr)) error {
+	__Vlistener, __Verr3 := net.ListenTCP("tcp", laddr)
+	if __Verr3 != nil {
+		return __Verr3
 	}
 
-	defer listener.Close()
+	defer __Vlistener.Close()
 
-	if didListen != nil {
-		didListen(listener.Addr())
+	if ___FdidListen2 != nil {
+		___FdidListen2(__Vlistener.Addr())
 	}
 
 	for {
-		localConn, err := listener.AcceptTCP()
-		if err != nil {
-			log.Println(err)
+		___VlocalConn2, __Verr4 := __Vlistener.AcceptTCP()
+		if __Verr4 != nil {
+			log.Println(__Verr4)
 			continue
 		}
-		// localConn被关闭时直接清除所有数据 不管没有发送的数据
-		localConn.SetLinger(0)
-		go handleConn(&_STsecureTCPConn{
-			ReadWriteCloser: localConn,
+		// ___VlocalConn2被关闭时直接清除所有数据 不管没有发送的数据
+		___VlocalConn2.SetLinger(0)
+		go ___FhandleConn1(&_STsecureTCPConn{
+			ReadWriteCloser: ___VlocalConn2,
 			Cipher:          ___Vcipher2,
 		})
 	}
