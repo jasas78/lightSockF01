@@ -3,9 +3,9 @@ package main
 
 type _STcipher struct {
 	// 编码用的密码
-	encodePassword *password
+	encodePassword *_STpassword
 	// 解码用的密码
-	decodePassword *password
+	decodePassword *_STpassword
 }
 
 // 加密原数据
@@ -23,8 +23,8 @@ func (__Vcipher *_STcipher) _Fdecode(bs []byte) {
 }
 
 // 新建一个编码解码器
-func newCipher(encodePassword *password) *_STcipher {
-	decodePassword := &password{}
+func newCipher(encodePassword *_STpassword) *_STcipher {
+	decodePassword := &_STpassword{}
 	for i, v := range encodePassword {
 		encodePassword[i] = v
 		decodePassword[v] = byte(i)

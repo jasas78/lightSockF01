@@ -19,7 +19,7 @@ type LsLocal struct {
 // 3. 转发socket数据到墙外代理服务端
 // 4. 把服务端返回的数据转发给用户的浏览器
 func NewLsLocal(password string, listenAddr, remoteAddr string) (*LsLocal, error) {
-	bsPassword, err := parsePassword(password)
+	bsPassword, err := _FparsePassword(password)
 	if err != nil {
 		return nil, err
 	}

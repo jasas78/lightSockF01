@@ -17,7 +17,7 @@ type LsServer struct {
 // 2. 解密本地代理客户端请求的数据，解析 SOCKS5 协议，连接用户浏览器真正想要连接的远程服务器
 // 3. 转发用户浏览器真正想要连接的远程服务器返回的数据的加密后的内容到本地代理客户端
 func _Fserver_NewLsServer(password string, listenAddr string) (*LsServer, error) {
-	bsPassword, err := parsePassword(password)
+	bsPassword, err := _FparsePassword(password)
 	if err != nil {
 		return nil, err
 	}

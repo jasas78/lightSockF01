@@ -14,7 +14,7 @@ const (
 
 var _Vclient_version = "master"
 
-func main() {
+func main() { // main clinet
 	log.SetFlags(log.Lshortfile)
 
 	// 默认配置
@@ -25,7 +25,8 @@ func main() {
 	__Vclient_Config._Fcommon_SaveConfig()
 
 	// 启动 local 端并监听
-	__Vclient_lsLocal, __VclientErr := NewLsLocal(__Vclient_Config.Password, __Vclient_Config.ListenAddr, __Vclient_Config.RemoteAddr)
+	__Vclient_lsLocal, __VclientErr := NewLsLocal(__Vclient_Config.Password,
+		__Vclient_Config.ListenAddr, __Vclient_Config.RemoteAddr)
 	if __VclientErr != nil {
 		log.Fatalln(__VclientErr)
 	}
@@ -40,4 +41,4 @@ func main() {
 	`, ___VclientListenAddr, __Vclient_Config.RemoteAddr, __Vclient_Config.Password))
 		log.Printf("lightsocks-local:%s 启动成功 监听在 %s\n", _Vclient_version, ___VclientListenAddr.String())
 	}))
-}
+} // main clinet

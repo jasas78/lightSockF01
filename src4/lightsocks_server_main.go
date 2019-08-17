@@ -22,8 +22,7 @@ func main() {
 	__Vsrv_config := &_ST_Config{
 		ListenAddr: fmt.Sprintf(":%d", __Vsrv_port),
 		// 密码随机生成
-		//Password: lightsocks.RandPassword(),
-		Password: RandPassword(),
+		Password: _FrandPassword(),
 	}
 	__Vsrv_config._Fcommon_ReadConfig()
 	__Vsrv_config._Fcommon_SaveConfig()
