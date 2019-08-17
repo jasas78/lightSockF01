@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/phayes/freeport"
+	//"github.com/phayes/freeport"
 	"log"
 	"net"
 ) // import
@@ -14,12 +14,9 @@ func main() {
     _Finit2(".server")
 	log.SetFlags(log.Lshortfile)
 
-	// 服务端监听端口随机生成
-	__Vsrv_port, __VsrvErr1 := freeport.GetFreePort()
-	if __VsrvErr1 != nil {
-		// 随机端口失败就采用 7448
-		__Vsrv_port = 7448
-	}
+    // 服务端监听端口: 采用 7448
+    __Vsrv_port := 7448
+
 	// 默认配置
 	__Vsrv_config := &_ST_Config{
 		ListenAddr: fmt.Sprintf(":%d", __Vsrv_port),
