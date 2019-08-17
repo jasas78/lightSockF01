@@ -28,8 +28,9 @@ func (__Vcipher *_STcipher) _Fdecode(__Vbs2 []byte) {
 func _Fdump256byte(___VpreStr, ___VpostStr string, ___VstPass *_STpassword) {
 	fmt.Printf(___VpreStr)
 	for __Vi1 := 0; __Vi1 < 256; __Vi1++ {
-		fmt.Printf("%2x", ___VstPass[__Vi1])
-		if __Vi1 != 255 && (__Vi1&7 == 7) {
+		fmt.Printf("%02x", byte(___VstPass[__Vi1]))
+		//if __Vi1 != 255 && ((__Vi1&7) == 7) {
+		if __Vi1 != 255 && (__Vi1%8 == 7) {
 			fmt.Printf(" ")
 		}
 	}
