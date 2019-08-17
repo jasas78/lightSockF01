@@ -30,7 +30,7 @@ func _Finit2(___VfileNameExt string) {
 	if len(os.Args) == 2 {
 		__VconfigFilename1 = os.Args[1]
 	}
-	_VconfigPath = path.Join(__Vhome1, __VconfigFilename1 + ___VfileNameExt )
+	_VconfigPath = path.Join(__Vhome1, __VconfigFilename1+___VfileNameExt)
 }
 
 // 保存配置到配置文件

@@ -10,12 +10,12 @@ import (
 var _Vsrv_Version = "master"
 
 func main() {
-    _Finit1()
-    _Finit2(".server")
+	_Finit1()
+	_Finit2(".server")
 	log.SetFlags(log.Lshortfile)
 
-    // 服务端监听端口: 采用 7448
-    __Vsrv_port := 7448
+	// 服务端监听端口: 采用 7448
+	__Vsrv_port := 7448
 
 	// 默认配置
 	__Vsrv_config := &_ST_Config{
@@ -27,7 +27,8 @@ func main() {
 	__Vsrv_config._Fcommon_SaveConfig()
 
 	// 启动 server 端并监听
-	__Vsrv_lsServer, __VsrvErr2 := _Fserver_NewLsServer(__Vsrv_config.Password, __Vsrv_config.ListenAddr)
+	__Vsrv_lsServer, __VsrvErr2 :=
+		_Fserver_NewLsServer(__Vsrv_config.Password, __Vsrv_config.ListenAddr)
 	if __VsrvErr2 != nil {
 		log.Fatalln(__VsrvErr2)
 	}
