@@ -85,7 +85,7 @@ func (secureSocket *_STsecureTCPConn) DecodeCopy(dst io.Writer) error {
 }
 
 // see net.DialTCP
-func DialTCPSecure(raddr *net.TCPAddr, ___Vcipher1 *_STcipher) (*_STsecureTCPConn, error) {
+func _FdialTCPSecure(raddr *net.TCPAddr, ___Vcipher1 *_STcipher) (*_STsecureTCPConn, error) {
 	remoteConn, __Verr2 := net.DialTCP("tcp", nil, raddr)
 	if __Verr2 != nil {
 		return nil, __Verr2
@@ -98,30 +98,32 @@ func DialTCPSecure(raddr *net.TCPAddr, ___Vcipher1 *_STcipher) (*_STsecureTCPCon
 
 // see net.ListenTCP
 func _FlistenSecureTCP(___VlistenAddr *net.TCPAddr, ___Vcipher2 *_STcipher,
-	___FhandleConn1 func(*_STsecureTCPConn),
-	___FdidListen2 func(net.Addr)) error {
+	___FhandleConnCallback func(*_STsecureTCPConn),
+	___VlistenInitShowConfig func(net.Addr)) error {
 
-	__Vlistener, __Verr3 := net.ListenTCP("tcp", ___VlistenAddr)
+	___VacceptListenER2, __Verr3 := net.ListenTCP("tcp", ___VlistenAddr)
 	if __Verr3 != nil {
 		return __Verr3
 	}
 
-	defer __Vlistener.Close()
+	defer ___VacceptListenER2.Close()
 
-	if ___FdidListen2 != nil {
-		___FdidListen2(__Vlistener.Addr())
+	if ___VlistenInitShowConfig != nil {
+		___VlistenInitShowConfig(___VacceptListenER2.Addr())
 	}
 
 	for {
-		___VlocalConn2, __Verr4 := __Vlistener.AcceptTCP()
+		___VlistenAcceptConnEach, __Verr4 := ___VacceptListenER2.AcceptTCP()
 		if __Verr4 != nil {
 			log.Println(__Verr4)
 			continue
 		}
-		// ___VlocalConn2被关闭时直接清除所有数据 不管没有发送的数据
-		___VlocalConn2.SetLinger(0)
-		go ___FhandleConn1(&_STsecureTCPConn{
-			ReadWriteCloser: ___VlocalConn2,
+		// ___VlistenAcceptConnEach被关闭时直接清除所有数据 不管没有发送的数据
+		___VlistenAcceptConnEach.SetLinger(0)
+
+		// _FsrvHandleConn (srv) , _FhandleConnClient
+		go ___FhandleConnCallback(&_STsecureTCPConn{
+			ReadWriteCloser: ___VlistenAcceptConnEach,
 			Cipher:          ___Vcipher2,
 		})
 	}

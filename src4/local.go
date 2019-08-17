@@ -39,14 +39,21 @@ func NewLsLocal(___Vpassword string, ___VlistenAddr5, ___VremoteAddr string) (*_
 }
 
 // 本地端启动监听，接收来自本机浏览器的连接
-func (__Vlocal1 *_STlsLocal) _Fclient_Listen(___VdidListenClient func(net.Addr)) error {
-	return _FlistenSecureTCP(__Vlocal1.ListenAddr, __Vlocal1.Cipher, __Vlocal1._FhandleConnClient, ___VdidListenClient)
+func (__Vlocal1 *_STlsLocal) _Fclient_Listen(
+	___VclientListenInitShowConfig func(net.Addr)) error {
+	return _FlistenSecureTCP(
+		__Vlocal1.ListenAddr,
+		__Vlocal1.Cipher,
+		__Vlocal1._FhandleConnClient,
+		___VclientListenInitShowConfig)
 }
 
 func (__Vlocal2 *_STlsLocal) _FhandleConnClient(___VuserConn *_STsecureTCPConn) {
 	defer ___VuserConn.Close()
 
-	__VproxyServer, __Verr1 := DialTCPSecure(__Vlocal2.RemoteAddr, __Vlocal2.Cipher)
+	__VproxyServer, __Verr1 :=
+		_FdialTCPSecure(__Vlocal2.RemoteAddr, __Vlocal2.Cipher)
+
 	if __Verr1 != nil {
 		log.Println(__Verr1)
 		return

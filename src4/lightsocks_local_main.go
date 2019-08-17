@@ -34,8 +34,9 @@ func main() { // main clinet
 	}
 
 	// func log.Fatalln(v ...interface{}) // Fatalln is equivalent to Println() followed by a call to os.Exit(1).
-	log.Fatalln(__Vclient_lsLocal._Fclient_Listen(func(___VclientListenAddr net.Addr) {
-		log.Println("使用配置：", fmt.Sprintf(`
+	log.Fatalln(__Vclient_lsLocal.
+		_Fclient_Listen(func(___VclientListenAddr net.Addr) {
+			log.Println("使用配置：", fmt.Sprintf(`
 本地监听地址 listen：
 %s
 远程服务地址 remote：
@@ -43,7 +44,7 @@ func main() { // main clinet
 密码 password：
 %s
 	`, ___VclientListenAddr, __Vclient_Config.RemoteAddr, __Vclient_Config.Password))
-		log.Printf("lightsocks-local:%s 启动成功 监听在 %s\n", _Vclient_version, ___VclientListenAddr.String())
-	}))
+			log.Printf("lightsocks-local:%s 启动成功 监听在 %s\n", _Vclient_version, ___VclientListenAddr.String())
+		}))
 
 } // main clinet

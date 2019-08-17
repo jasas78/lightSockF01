@@ -33,7 +33,7 @@ func _Fserver_NewLsServer(___Vpassword3 string, ___VlistenAddr1 string) (*_STlsS
 } // _Fserver_NewLsServer
 
 // 运行服务端并且监听来自本地代理客户端的请求 // return if error:w
-func (___VlsServer1 *_STlsServer) _Fserver_Listen(___VsrvListenInitShowConfig func(__VlistenAddr2 net.Addr)) error {
+func (___VlsServer1 *_STlsServer) _Fserver_Listen(___VsrvListenInitShowConfig func(net.Addr)) error {
 	return _FlistenSecureTCP(___VlsServer1.ListenAddr, ___VlsServer1.Cipher,
 		___VlsServer1._FsrvHandleConn, ___VsrvListenInitShowConfig)
 } // _STlsServer . _Fserver_Listen
