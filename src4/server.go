@@ -159,4 +159,4 @@ func (___VlsServer2 *_STlsServer) _FsrvHandleConn(___VlocalConn *_STsecureTCPCon
 		Cipher:          ___VlocalConn.Cipher,
 		ReadWriteCloser: __VdstServer,
 	}).EncodeCopy(___VlocalConn)
-}
+} // _STlsServer . _FsrvHandleConn

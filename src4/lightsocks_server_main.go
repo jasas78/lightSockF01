@@ -32,13 +32,14 @@ func main() {
 	if __VsrvErr2 != nil {
 		log.Fatalln(__VsrvErr2)
 	}
-	log.Fatalln(__Vsrv_lsServer._Fserver_Listen(func(___Vsrv_listenAddr net.Addr) {
-		log.Println("使用配置：", fmt.Sprintf(`
+	log.Fatalln(__Vsrv_lsServer.
+		_Fserver_Listen(func(___Vsrv_listenAddr net.Addr) {
+			log.Println("使用配置：", fmt.Sprintf(`
 本地监听地址 listen：
 %s
 密码 password：
 %s
 	`, ___Vsrv_listenAddr, __Vsrv_config.Password))
-		log.Printf("lightsocks-server:%s 启动成功 监听在 %s\n", _Vsrv_Version, ___Vsrv_listenAddr.String())
-	}))
+			log.Printf("lightsocks-server:%s 启动成功 监听在 %s\n", _Vsrv_Version, ___Vsrv_listenAddr.String())
+		}))
 } // main

@@ -18,12 +18,12 @@ type _STlsLocal struct {
 // 2. 转发前加密数据
 // 3. 转发socket数据到墙外代理服务端
 // 4. 把服务端返回的数据转发给用户的浏览器
-func NewLsLocal(___Vpassword string, ___VlistenAddr, ___VremoteAddr string) (*_STlsLocal, error) {
+func NewLsLocal(___Vpassword string, ___VlistenAddr5, ___VremoteAddr string) (*_STlsLocal, error) {
 	__VbsPassword1, __Verr3 := _FparsePassword(___Vpassword)
 	if __Verr3 != nil {
 		return nil, __Verr3
 	}
-	__VstructListenAddr1, __Verr4 := net.ResolveTCPAddr("tcp", ___VlistenAddr)
+	__VstructListenAddr1, __Verr4 := net.ResolveTCPAddr("tcp", ___VlistenAddr5)
 	if __Verr4 != nil {
 		return nil, __Verr4
 	}
@@ -39,11 +39,11 @@ func NewLsLocal(___Vpassword string, ___VlistenAddr, ___VremoteAddr string) (*_S
 }
 
 // 本地端启动监听，接收来自本机浏览器的连接
-func (__Vlocal1 *_STlsLocal) _Fclient_Listen(___VdidListen func(___VlistenAddr net.Addr)) error {
-	return _FlistenSecureTCP(__Vlocal1.ListenAddr, __Vlocal1.Cipher, __Vlocal1._FhandleConn, ___VdidListen)
+func (__Vlocal1 *_STlsLocal) _Fclient_Listen(___VdidListenClient func(net.Addr)) error {
+	return _FlistenSecureTCP(__Vlocal1.ListenAddr, __Vlocal1.Cipher, __Vlocal1._FhandleConnClient, ___VdidListenClient)
 }
 
-func (__Vlocal2 *_STlsLocal) _FhandleConn(___VuserConn *_STsecureTCPConn) {
+func (__Vlocal2 *_STlsLocal) _FhandleConnClient(___VuserConn *_STsecureTCPConn) {
 	defer ___VuserConn.Close()
 
 	__VproxyServer, __Verr1 := DialTCPSecure(__Vlocal2.RemoteAddr, __Vlocal2.Cipher)
@@ -68,4 +68,4 @@ func (__Vlocal2 *_STlsLocal) _FhandleConn(___VuserConn *_STsecureTCPConn) {
 	}()
 	// 从 localUser 发送数据发送到 __VproxyServer，这里因为处在翻墙阶段出现网络错误的概率更大
 	___VuserConn.EncodeCopy(__VproxyServer)
-}
+} // _STlsLocal . _FhandleConnClient

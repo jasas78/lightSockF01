@@ -98,7 +98,8 @@ func DialTCPSecure(raddr *net.TCPAddr, ___Vcipher1 *_STcipher) (*_STsecureTCPCon
 
 // see net.ListenTCP
 func _FlistenSecureTCP(laddr *net.TCPAddr, ___Vcipher2 *_STcipher,
-	___FhandleConn1 func(___VlocalConn2 *_STsecureTCPConn), ___FdidListen2 func(___VlistenAddr8 net.Addr)) error {
+	___FhandleConn1 func(___VlocalConn2 *_STsecureTCPConn),
+	___FdidListen2 func(___VlistenAddr8 net.Addr)) error {
 	__Vlistener, __Verr3 := net.ListenTCP("tcp", laddr)
 	if __Verr3 != nil {
 		return __Verr3
