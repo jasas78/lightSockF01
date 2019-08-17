@@ -7,20 +7,20 @@ import (
 	"net"
 ) // import
 
-var version = "master"
+var _Vsrv_Version = "master"
 
 func main() {
 	log.SetFlags(log.Lshortfile)
 
 	// 服务端监听端口随机生成
-	port, err := freeport.GetFreePort()
-	if err != nil {
+	__Vsrv_port, __VsrvErr1 := freeport.GetFreePort()
+	if __VsrvErr1 != nil {
 		// 随机端口失败就采用 7448
-		port = 7448
+		__Vsrv_port = 7448
 	}
 	// 默认配置
 	__Vsrv_config := &_ST_Config{
-		ListenAddr: fmt.Sprintf(":%d", port),
+		ListenAddr: fmt.Sprintf(":%d", __Vsrv_port),
 		// 密码随机生成
 		//Password: lightsocks.RandPassword(),
 		Password: RandPassword(),
@@ -29,17 +29,17 @@ func main() {
 	__Vsrv_config._Fcommon_SaveConfig()
 
 	// 启动 server 端并监听
-	lsServer, err := _Fserver_NewLsServer(__Vsrv_config.Password, __Vsrv_config.ListenAddr)
-	if err != nil {
-		log.Fatalln(err)
+	__Vsrv_lsServer, __VsrvErr2 := _Fserver_NewLsServer(__Vsrv_config.Password, __Vsrv_config.ListenAddr)
+	if __VsrvErr2 != nil {
+		log.Fatalln(__VsrvErr2)
 	}
-	log.Fatalln(lsServer._Fserver_Listen(func(listenAddr net.Addr) {
+	log.Fatalln(__Vsrv_lsServer._Fserver_Listen(func(___Vsrv_listenAddr net.Addr) {
 		log.Println("使用配置：", fmt.Sprintf(`
 本地监听地址 listen：
 %s
 密码 password：
 %s
-	`, listenAddr, __Vsrv_config.Password))
-		log.Printf("lightsocks-server:%s 启动成功 监听在 %s\n", version, listenAddr.String())
+	`, ___Vsrv_listenAddr, __Vsrv_config.Password))
+		log.Printf("lightsocks-server:%s 启动成功 监听在 %s\n", _Vsrv_Version, ___Vsrv_listenAddr.String())
 	}))
 } // main

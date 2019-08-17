@@ -7,7 +7,7 @@ import (
 )
 
 type LsLocal struct {
-	Cipher     *cipher
+	Cipher     *_STcipher
 	ListenAddr *net.TCPAddr
 	RemoteAddr *net.TCPAddr
 }

@@ -7,7 +7,7 @@ import (
 )
 
 type LsServer struct {
-	Cipher     *cipher
+	Cipher     *_STcipher
 	ListenAddr *net.TCPAddr
 }
 
