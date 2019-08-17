@@ -9,14 +9,14 @@ type _STcipher struct {
 }
 
 // 加密原数据
-func (__Vcipher *_STcipher) encode(bs []byte) {
+func (__Vcipher *_STcipher) _Fencode(bs []byte) {
 	for i, v := range bs {
 		bs[i] = __Vcipher.encodePassword[v]
 	}
 }
 
 // 解码加密后的数据到原数据
-func (__Vcipher *_STcipher) decode(bs []byte) {
+func (__Vcipher *_STcipher) _Fdecode(bs []byte) {
 	for i, v := range bs {
 		bs[i] = __Vcipher.decodePassword[v]
 	}

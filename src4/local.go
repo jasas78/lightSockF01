@@ -43,7 +43,7 @@ func (local *LsLocal) _Fclient_Listen(didListen func(listenAddr net.Addr)) error
 	return ListenSecureTCP(local.ListenAddr, local.Cipher, local.handleConn, didListen)
 }
 
-func (local *LsLocal) handleConn(userConn *SecureTCPConn) {
+func (local *LsLocal) handleConn(userConn *_STsecureTCPConn) {
 	defer userConn.Close()
 
 	proxyServer, err := DialTCPSecure(local.RemoteAddr, local.Cipher)
