@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-const passwordLength = 256
+const _VpasswordLength = 256
 
-type _STpassword [passwordLength]byte
+type _STpassword [_VpasswordLength]byte
 
-func init() {
+func _Finit() {
 	// 更新随机种子，防止生成一样的随机密码
 	rand.Seed(time.Now().Unix())
 }
@@ -25,13 +25,13 @@ func (___Vpassword *_STpassword) String() string {
 
 // 解析采用base64编码的字符串获取密码
 func _FparsePassword(passwordString string) (*_STpassword, error) {
-	bs, err := base64.StdEncoding.DecodeString(strings.TrimSpace(passwordString))
-	if err != nil || len(bs) != passwordLength {
+	__Vbs, __Verr := base64.StdEncoding.DecodeString(strings.TrimSpace(passwordString))
+	if __Verr != nil || len(__Vbs) != _VpasswordLength {
 		return nil, errors.New("不合法的密码")
 	}
 	__Vpassword := _STpassword{}
-	copy(__Vpassword[:], bs)
-	bs = nil
+	copy(__Vpassword[:], __Vbs)
+	__Vbs = nil
 	return &__Vpassword, nil
 }
 
@@ -39,11 +39,11 @@ func _FparsePassword(passwordString string) (*_STpassword, error) {
 // 不能出现任何一个重复的byte位，必须又 0-255 组成，并且都需要包含
 func _FrandPassword() string {
 	// 随机生成一个由  0~255 组成的 byte 数组
-	__VintArr := rand.Perm(passwordLength)
+	__VintArr := rand.Perm(_VpasswordLength)
 	__Vpassword := &_STpassword{}
-	for i, v := range __VintArr {
-		__Vpassword[i] = byte(v)
-		if i == v {
+	for __Vi, __Vv := range __VintArr {
+		__Vpassword[__Vi] = byte(__Vv)
+		if __Vi == __Vv {
 			// 确保不会出现如何一个byte位出现重复
 			return _FrandPassword()
 		}

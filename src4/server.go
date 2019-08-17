@@ -26,7 +26,7 @@ func _Fserver_NewLsServer(password string, __VlistenAddr1 string) (*_STlsServer,
 		return nil, __Verr2
 	}
 	return &_STlsServer{
-		Cipher:     newCipher(bsPassword),
+		Cipher:     _FnewCipher(bsPassword),
 		ListenAddr: structListenAddr,
 	}, nil
 

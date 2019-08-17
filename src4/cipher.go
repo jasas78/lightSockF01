@@ -23,7 +23,7 @@ func (__Vcipher *_STcipher) _Fdecode(__Vbs2 []byte) {
 }
 
 // 新建一个编码解码器
-func newCipher(___VencodePassword *_STpassword) *_STcipher {
+func _FnewCipher(___VencodePassword *_STpassword) *_STcipher {
 	__VdecodePassword := &_STpassword{}
 	for __Vi3, __Vv3 := range ___VencodePassword {
 		___VencodePassword[__Vi3] = __Vv3

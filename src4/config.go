@@ -23,19 +23,19 @@ type _ST_Config struct {
 }
 
 func init() {
-	home, _ := homedir.Dir()
+	__Vhome1, _ := homedir.Dir()
 	// 默认的配置文件名称
-	configFilename := ".lightsocks.json"
+	__VconfigFilename1 := ".lightsocks.json"
 	// 如果用户有传配置文件，就使用用户传入的配置文件
 	if len(os.Args) == 2 {
-		configFilename = os.Args[1]
+		__VconfigFilename1 = os.Args[1]
 	}
-	_VconfigPath = path.Join(home, configFilename)
+	_VconfigPath = path.Join(__Vhome1, __VconfigFilename1)
 }
 
 // 保存配置到配置文件
-func (config *_ST_Config) _Fcommon_SaveConfig() {
-	__VconfigJson, _ := json.MarshalIndent(config, "", "	")
+func (___Vconfig1 *_ST_Config) _Fcommon_SaveConfig() {
+	__VconfigJson, _ := json.MarshalIndent(___Vconfig1, "", "	")
 	__Verr1 := ioutil.WriteFile(_VconfigPath, __VconfigJson, 0644)
 	if __Verr1 != nil {
 		fmt.Errorf("保存配置到文件 %s 出错: %s", _VconfigPath, __Verr1)
@@ -43,19 +43,19 @@ func (config *_ST_Config) _Fcommon_SaveConfig() {
 	log.Printf("保存配置到文件 %s 成功\n", _VconfigPath)
 }
 
-func (config *_ST_Config) _Fcommon_ReadConfig() {
-	// 如果配置文件存在，就读取配置文件中的配置 assign 到 config
+func (___Vconfig2 *_ST_Config) _Fcommon_ReadConfig() {
+	// 如果配置文件存在，就读取配置文件中的配置 assign 到 ___Vconfig2
 	if _, __Verr2 := os.Stat(_VconfigPath); !os.IsNotExist(__Verr2) {
 		log.Printf("从文件 %s 中读取配置\n", _VconfigPath)
-		file, __Verr3 := os.Open(_VconfigPath)
+		__Vfile1, __Verr3 := os.Open(_VconfigPath)
 		if __Verr3 != nil {
 			log.Fatalf("打开配置文件 %s 出错:%s", _VconfigPath, __Verr3)
 		}
-		defer file.Close()
+		defer __Vfile1.Close()
 
-		__Verr3 = json.NewDecoder(file).Decode(config)
+		__Verr3 = json.NewDecoder(__Vfile1).Decode(___Vconfig2)
 		if __Verr3 != nil {
-			log.Fatalf("格式不合法的 JSON 配置文件:\n%s", file.Name())
+			log.Fatalf("格式不合法的 JSON 配置文件:\n%s", __Vfile1.Name())
 		}
 	}
 }

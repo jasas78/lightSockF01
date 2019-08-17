@@ -32,7 +32,7 @@ func NewLsLocal(___Vpassword string, ___VlistenAddr, ___VremoteAddr string) (*_S
 		return nil, __Verr5
 	}
 	return &_STlsLocal{
-		Cipher:     newCipher(__VbsPassword),
+		Cipher:     _FnewCipher(__VbsPassword),
 		ListenAddr: __VstructListenAddr,
 		RemoteAddr: __VstructRemoteAddr,
 	}, nil

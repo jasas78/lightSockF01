@@ -10,6 +10,7 @@ import (
 var _Vsrv_Version = "master"
 
 func main() {
+    _Finit()
 	log.SetFlags(log.Lshortfile)
 
 	// 服务端监听端口随机生成
