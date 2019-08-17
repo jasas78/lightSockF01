@@ -32,6 +32,8 @@ func main() {
 	if __VsrvErr2 != nil {
 		log.Fatalln(__VsrvErr2)
 	}
+
+	// func log.Fatalln(v ...interface{}) // Fatalln is equivalent to Println() followed by a call to os.Exit(1).
 	log.Fatalln(__Vsrv_lsServer.
 		_Fserver_Listen(func(___Vsrv_listenAddr net.Addr) {
 			log.Println("使用配置：", fmt.Sprintf(`
@@ -42,4 +44,5 @@ func main() {
 	`, ___Vsrv_listenAddr, __Vsrv_config.Password))
 			log.Printf("lightsocks-server:%s 启动成功 监听在 %s\n", _Vsrv_Version, ___Vsrv_listenAddr.String())
 		}))
+
 } // main

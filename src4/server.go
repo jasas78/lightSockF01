@@ -9,7 +9,7 @@ import (
 type _STlsServer struct {
 	Cipher     *_STcipher
 	ListenAddr *net.TCPAddr
-}
+} // type _STlsServer
 
 // 新建一个服务端
 // 服务端的职责是:
@@ -30,13 +30,13 @@ func _Fserver_NewLsServer(___Vpassword3 string, ___VlistenAddr1 string) (*_STlsS
 		ListenAddr: __VstructListenAddr2,
 	}, nil
 
-}
+} // _Fserver_NewLsServer
 
-// 运行服务端并且监听来自本地代理客户端的请求
-func (___VlsServer1 *_STlsServer) _Fserver_Listen(___VsrvDidListen func(__VlistenAddr2 net.Addr)) error {
+// 运行服务端并且监听来自本地代理客户端的请求 // return if error:w
+func (___VlsServer1 *_STlsServer) _Fserver_Listen(___VsrvListenInitShowConfig func(__VlistenAddr2 net.Addr)) error {
 	return _FlistenSecureTCP(___VlsServer1.ListenAddr, ___VlsServer1.Cipher,
-		___VlsServer1._FsrvHandleConn, ___VsrvDidListen)
-}
+		___VlsServer1._FsrvHandleConn, ___VsrvListenInitShowConfig)
+} // _STlsServer . _Fserver_Listen
 
 // 解 SOCKS5 协议
 // https://www.ietf.org/rfc/rfc1928.txt
