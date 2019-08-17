@@ -19,17 +19,17 @@ func main() {
 		port = 7448
 	}
 	// 默认配置
-	config := &Config{
+	__Vsrv_config := &_ST_Config{
 		ListenAddr: fmt.Sprintf(":%d", port),
 		// 密码随机生成
 		//Password: lightsocks.RandPassword(),
 		Password: RandPassword(),
 	}
-	config.ReadConfig()
-	config.SaveConfig()
+	__Vsrv_config._Fcommon_ReadConfig()
+	__Vsrv_config._Fcommon_SaveConfig()
 
 	// 启动 server 端并监听
-	lsServer, err := _Fserver_NewLsServer(config.Password, config.ListenAddr)
+	lsServer, err := _Fserver_NewLsServer(__Vsrv_config.Password, __Vsrv_config.ListenAddr)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -39,7 +39,7 @@ func main() {
 %s
 密码 password：
 %s
-	`, listenAddr, config.Password))
+	`, listenAddr, __Vsrv_config.Password))
 		log.Printf("lightsocks-server:%s 启动成功 监听在 %s\n", version, listenAddr.String())
 	}))
 } // main

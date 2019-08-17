@@ -16,7 +16,7 @@ var (
 	configPath string
 )
 
-type Config struct {
+type _ST_Config struct {
 	ListenAddr string `json:"listen"`
 	RemoteAddr string `json:"remote"`
 	Password   string `json:"password"`
@@ -34,7 +34,7 @@ func init() {
 }
 
 // 保存配置到配置文件
-func (config *Config) SaveConfig() {
+func (config *_ST_Config) _Fcommon_SaveConfig() {
 	configJson, _ := json.MarshalIndent(config, "", "	")
 	err := ioutil.WriteFile(configPath, configJson, 0644)
 	if err != nil {
@@ -43,7 +43,7 @@ func (config *Config) SaveConfig() {
 	log.Printf("保存配置到文件 %s 成功\n", configPath)
 }
 
-func (config *Config) ReadConfig() {
+func (config *_ST_Config) _Fcommon_ReadConfig() {
 	// 如果配置文件存在，就读取配置文件中的配置 assign 到 config
 	if _, err := os.Stat(configPath); !os.IsNotExist(err) {
 		log.Printf("从文件 %s 中读取配置\n", configPath)
