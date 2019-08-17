@@ -22,7 +22,7 @@ type _ST_Config struct {
 	Password   string `json:"password"`
 }
 
-func init() {
+func _Finit2(___VfileNameExt string) {
 	__Vhome1, _ := homedir.Dir()
 	// 默认的配置文件名称
 	__VconfigFilename1 := ".lightsocks.json"
@@ -30,7 +30,7 @@ func init() {
 	if len(os.Args) == 2 {
 		__VconfigFilename1 = os.Args[1]
 	}
-	_VconfigPath = path.Join(__Vhome1, __VconfigFilename1)
+	_VconfigPath = path.Join(__Vhome1, __VconfigFilename1 + ___VfileNameExt )
 }
 
 // 保存配置到配置文件

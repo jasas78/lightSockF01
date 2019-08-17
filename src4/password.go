@@ -13,7 +13,7 @@ const _VpasswordLength = 256
 
 type _STpassword [_VpasswordLength]byte
 
-func _Finit() {
+func _Finit1() {
 	// 更新随机种子，防止生成一样的随机密码
 	rand.Seed(time.Now().Unix())
 }

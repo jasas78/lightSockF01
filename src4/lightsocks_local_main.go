@@ -15,7 +15,8 @@ const (
 var _Vclient_version = "master"
 
 func main() { // main clinet
-    _Finit()
+    _Finit1()
+    _Finit2(".client")
 	log.SetFlags(log.Lshortfile)
 
 	// 默认配置
