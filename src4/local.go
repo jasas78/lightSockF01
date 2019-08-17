@@ -39,7 +39,7 @@ func NewLsLocal(password string, listenAddr, remoteAddr string) (*LsLocal, error
 }
 
 // 本地端启动监听，接收来自本机浏览器的连接
-func (local *LsLocal) Listen(didListen func(listenAddr net.Addr)) error {
+func (local *LsLocal) _Fclient_Listen(didListen func(listenAddr net.Addr)) error {
 	return ListenSecureTCP(local.ListenAddr, local.Cipher, local.handleConn, didListen)
 }
 
