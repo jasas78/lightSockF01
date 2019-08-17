@@ -26,7 +26,7 @@ func (__Vcipher *_STcipher) _Fdecode(__Vbs2 []byte) {
 func _FnewCipher(___VencodePassword *_STpassword) *_STcipher {
 	__VdecodePassword := &_STpassword{}
 	for __Vi3, __Vv3 := range ___VencodePassword {
-		___VencodePassword[__Vi3] = __Vv3
+		//___VencodePassword[__Vi3] = __Vv3
 		__VdecodePassword[__Vv3] = byte(__Vi3)
 	}
 	return &_STcipher{
