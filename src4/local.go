@@ -19,22 +19,22 @@ type _STlsLocal struct {
 // 3. 转发socket数据到墙外代理服务端
 // 4. 把服务端返回的数据转发给用户的浏览器
 func NewLsLocal(___Vpassword string, ___VlistenAddr, ___VremoteAddr string) (*_STlsLocal, error) {
-	__VbsPassword, __Verr3 := _FparsePassword(___Vpassword)
+	__VbsPassword1, __Verr3 := _FparsePassword(___Vpassword)
 	if __Verr3 != nil {
 		return nil, __Verr3
 	}
-	__VstructListenAddr, __Verr4 := net.ResolveTCPAddr("tcp", ___VlistenAddr)
+	__VstructListenAddr1, __Verr4 := net.ResolveTCPAddr("tcp", ___VlistenAddr)
 	if __Verr4 != nil {
 		return nil, __Verr4
 	}
-	__VstructRemoteAddr, __Verr5 := net.ResolveTCPAddr("tcp", ___VremoteAddr)
+	__VstructRemoteAddr1, __Verr5 := net.ResolveTCPAddr("tcp", ___VremoteAddr)
 	if __Verr5 != nil {
 		return nil, __Verr5
 	}
 	return &_STlsLocal{
-		Cipher:     _FnewCipher(__VbsPassword),
-		ListenAddr: __VstructListenAddr,
-		RemoteAddr: __VstructRemoteAddr,
+		Cipher:     _FnewCipher(__VbsPassword1),
+		ListenAddr: __VstructListenAddr1,
+		RemoteAddr: __VstructRemoteAddr1,
 	}, nil
 }
 

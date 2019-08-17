@@ -16,18 +16,18 @@ type _STlsServer struct {
 // 1. 监听来自本地代理客户端的请求
 // 2. 解密本地代理客户端请求的数据，解析 SOCKS5 协议，连接用户浏览器真正想要连接的远程服务器
 // 3. 转发用户浏览器真正想要连接的远程服务器返回的数据的加密后的内容到本地代理客户端
-func _Fserver_NewLsServer(password string, __VlistenAddr1 string) (*_STlsServer, error) {
-	bsPassword, __Verr1 := _FparsePassword(password)
+func _Fserver_NewLsServer(___Vpassword3 string, ___VlistenAddr1 string) (*_STlsServer, error) {
+	__VbsPassword2, __Verr1 := _FparsePassword(___Vpassword3)
 	if __Verr1 != nil {
 		return nil, __Verr1
 	}
-	structListenAddr, __Verr2 := net.ResolveTCPAddr("tcp", __VlistenAddr1)
+	__VstructListenAddr2, __Verr2 := net.ResolveTCPAddr("tcp", ___VlistenAddr1)
 	if __Verr2 != nil {
 		return nil, __Verr2
 	}
 	return &_STlsServer{
-		Cipher:     _FnewCipher(bsPassword),
-		ListenAddr: structListenAddr,
+		Cipher:     _FnewCipher(__VbsPassword2),
+		ListenAddr: __VstructListenAddr2,
 	}, nil
 
 }
@@ -42,7 +42,7 @@ func (___VlsServer1 *_STlsServer) _Fserver_Listen(___VsrvDidListen func(__Vliste
 // https://www.ietf.org/rfc/rfc1928.txt
 func (___VlsServer2 *_STlsServer) _FsrvHandleConn(___VlocalConn *_STsecureTCPConn) {
 	defer ___VlocalConn.Close()
-	buf := make([]byte, 256)
+	__Vbuf7 := make([]byte, 256)
 
 	/**
 	   The ___VlocalConn connects to the __VdstServer, and sends a ver
@@ -57,9 +57,9 @@ func (___VlsServer2 *_STlsServer) _FsrvHandleConn(___VlocalConn *_STsecureTCPCon
 	   appear in the METHODS field.
 	*/
 	// 第一个字段VER代表Socks的版本，Socks5默认为0x05，其固定长度为1个字节
-	_, __Verr3 := ___VlocalConn.DecodeRead(buf)
+	_, __Verr3 := ___VlocalConn.DecodeRead(__Vbuf7)
 	// 只支持版本5
-	if __Verr3 != nil || buf[0] != 0x05 {
+	if __Verr3 != nil || __Vbuf7[0] != 0x05 {
 		return
 	}
 
@@ -85,46 +85,46 @@ func (___VlsServer2 *_STlsServer) _FsrvHandleConn(___VlocalConn *_STsecureTCPCon
 	*/
 
 	// 获取真正的远程服务的地址
-	n, __Verr4 := ___VlocalConn.DecodeRead(buf)
-	// n 最短的长度为7 情况为 ATYP=3 DST.ADDR占用1字节 值为0x0
-	if __Verr4 != nil || n < 7 {
+	__Vn4, __Verr4 := ___VlocalConn.DecodeRead(__Vbuf7)
+	// __Vn4 最短的长度为7 情况为 ATYP=3 DST.ADDR占用1字节 值为0x0
+	if __Verr4 != nil || __Vn4 < 7 {
 		return
 	}
 
 	// CMD代表客户端请求的类型，值长度也是1个字节，有三种类型
 	// CONNECT X'01'
-	if buf[1] != 0x01 {
+	if __Vbuf7[1] != 0x01 {
 		// 目前只支持 CONNECT
 		return
 	}
 
-	var dIP []byte
+	var __VdIP []byte
 	// aType 代表请求的远程服务器地址类型，值长度1个字节，有三种类型
-	switch buf[3] {
+	switch __Vbuf7[3] {
 	case 0x01:
 		//	IP V4 address: X'01'
-		dIP = buf[4 : 4+net.IPv4len]
+		__VdIP = __Vbuf7[4 : 4+net.IPv4len]
 	case 0x03:
 		//	DOMAINNAME: X'03'
-		ipAddr, __Verr5 := net.ResolveIPAddr("ip", string(buf[5:n-2]))
+		ipAddr, __Verr5 := net.ResolveIPAddr("ip", string(__Vbuf7[5:__Vn4-2]))
 		if __Verr5 != nil {
 			return
 		}
-		dIP = ipAddr.IP
+		__VdIP = ipAddr.IP
 	case 0x04:
 		//	IP V6 address: X'04'
-		dIP = buf[4 : 4+net.IPv6len]
+		__VdIP = __Vbuf7[4 : 4+net.IPv6len]
 	default:
 		return
 	}
-	dPort := buf[n-2:]
-	dstAddr := &net.TCPAddr{
-		IP:   dIP,
-		Port: int(binary.BigEndian.Uint16(dPort)),
+	__VdPort4 := __Vbuf7[__Vn4-2:]
+	__VdstAddr4 := &net.TCPAddr{
+		IP:   __VdIP,
+		Port: int(binary.BigEndian.Uint16(__VdPort4)),
 	}
 
 	// 连接真正的远程服务
-	__VdstServer, __Verr6 := net.DialTCP("tcp", nil, dstAddr)
+	__VdstServer, __Verr6 := net.DialTCP("tcp", nil, __VdstAddr4)
 	if __Verr6 != nil {
 		return
 	} else {
