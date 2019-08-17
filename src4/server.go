@@ -6,7 +6,7 @@ import (
 	"net"
 )
 
-type LsServer struct {
+type _STlsServer struct {
 	Cipher     *_STcipher
 	ListenAddr *net.TCPAddr
 }
@@ -16,16 +16,16 @@ type LsServer struct {
 // 1. 监听来自本地代理客户端的请求
 // 2. 解密本地代理客户端请求的数据，解析 SOCKS5 协议，连接用户浏览器真正想要连接的远程服务器
 // 3. 转发用户浏览器真正想要连接的远程服务器返回的数据的加密后的内容到本地代理客户端
-func _Fserver_NewLsServer(password string, listenAddr string) (*LsServer, error) {
-	bsPassword, err := _FparsePassword(password)
-	if err != nil {
-		return nil, err
+func _Fserver_NewLsServer(password string, __VlistenAddr1 string) (*_STlsServer, error) {
+	bsPassword, __Verr1 := _FparsePassword(password)
+	if __Verr1 != nil {
+		return nil, __Verr1
 	}
-	structListenAddr, err := net.ResolveTCPAddr("tcp", listenAddr)
-	if err != nil {
-		return nil, err
+	structListenAddr, __Verr2 := net.ResolveTCPAddr("tcp", __VlistenAddr1)
+	if __Verr2 != nil {
+		return nil, __Verr2
 	}
-	return &LsServer{
+	return &_STlsServer{
 		Cipher:     newCipher(bsPassword),
 		ListenAddr: structListenAddr,
 	}, nil
@@ -33,18 +33,19 @@ func _Fserver_NewLsServer(password string, listenAddr string) (*LsServer, error)
 }
 
 // 运行服务端并且监听来自本地代理客户端的请求
-func (lsServer *LsServer) _Fserver_Listen(didListen func(listenAddr net.Addr)) error {
-	return ListenSecureTCP(lsServer.ListenAddr, lsServer.Cipher, lsServer.handleConn, didListen)
+func (___VlsServer1 *_STlsServer) _Fserver_Listen(___VsrvDidListen func(__VlistenAddr2 net.Addr)) error {
+	return _FlistenSecureTCP(___VlsServer1.ListenAddr, ___VlsServer1.Cipher,
+		___VlsServer1._FsrvHandleConn, ___VsrvDidListen)
 }
 
 // 解 SOCKS5 协议
 // https://www.ietf.org/rfc/rfc1928.txt
-func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
-	defer localConn.Close()
+func (___VlsServer2 *_STlsServer) _FsrvHandleConn(___VlocalConn *_STsecureTCPConn) {
+	defer ___VlocalConn.Close()
 	buf := make([]byte, 256)
 
 	/**
-	   The localConn connects to the dstServer, and sends a ver
+	   The ___VlocalConn connects to the __VdstServer, and sends a ver
 	   identifier/method selection message:
 		          +----+----------+----------+
 		          |VER | NMETHODS | METHODS  |
@@ -56,14 +57,14 @@ func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
 	   appear in the METHODS field.
 	*/
 	// 第一个字段VER代表Socks的版本，Socks5默认为0x05，其固定长度为1个字节
-	_, err := localConn.DecodeRead(buf)
+	_, __Verr3 := ___VlocalConn.DecodeRead(buf)
 	// 只支持版本5
-	if err != nil || buf[0] != 0x05 {
+	if __Verr3 != nil || buf[0] != 0x05 {
 		return
 	}
 
 	/**
-	   The dstServer selects from one of the methods given in METHODS, and
+	   The __VdstServer selects from one of the methods given in METHODS, and
 	   sends a METHOD selection message:
 
 		          +----+--------+
@@ -73,7 +74,7 @@ func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
 		          +----+--------+
 	*/
 	// 不需要验证，直接验证通过
-	localConn.EncodeWrite([]byte{0x05, 0x00})
+	___VlocalConn.EncodeWrite([]byte{0x05, 0x00})
 
 	/**
 	  +----+-----+-------+------+----------+----------+
@@ -84,9 +85,9 @@ func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
 	*/
 
 	// 获取真正的远程服务的地址
-	n, err := localConn.DecodeRead(buf)
+	n, __Verr4 := ___VlocalConn.DecodeRead(buf)
 	// n 最短的长度为7 情况为 ATYP=3 DST.ADDR占用1字节 值为0x0
-	if err != nil || n < 7 {
+	if __Verr4 != nil || n < 7 {
 		return
 	}
 
@@ -105,8 +106,8 @@ func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
 		dIP = buf[4 : 4+net.IPv4len]
 	case 0x03:
 		//	DOMAINNAME: X'03'
-		ipAddr, err := net.ResolveIPAddr("ip", string(buf[5:n-2]))
-		if err != nil {
+		ipAddr, __Verr5 := net.ResolveIPAddr("ip", string(buf[5:n-2]))
+		if __Verr5 != nil {
 			return
 		}
 		dIP = ipAddr.IP
@@ -123,13 +124,13 @@ func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
 	}
 
 	// 连接真正的远程服务
-	dstServer, err := net.DialTCP("tcp", nil, dstAddr)
-	if err != nil {
+	__VdstServer, __Verr6 := net.DialTCP("tcp", nil, dstAddr)
+	if __Verr6 != nil {
 		return
 	} else {
-		defer dstServer.Close()
+		defer __VdstServer.Close()
 		// Conn被关闭时直接清除所有数据 不管没有发送的数据
-		dstServer.SetLinger(0)
+		__VdstServer.SetLinger(0)
 
 		// 响应客户端连接成功
 		/**
@@ -140,22 +141,22 @@ func (lsServer *LsServer) handleConn(localConn *_STsecureTCPConn) {
 		  +----+-----+-------+------+----------+----------+
 		*/
 		// 响应客户端连接成功
-		localConn.EncodeWrite([]byte{0x05, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})
+		___VlocalConn.EncodeWrite([]byte{0x05, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})
 	}
 
 	// 进行转发
-	// 从 localUser 读取数据发送到 dstServer
+	// 从 localUser 读取数据发送到 __VdstServer
 	go func() {
-		err := localConn.DecodeCopy(dstServer)
-		if err != nil {
+		__Verr7 := ___VlocalConn.DecodeCopy(__VdstServer)
+		if __Verr7 != nil {
 			// 在 copy 的过程中可能会存在网络超时等 error 被 return，只要有一个发生了错误就退出本次工作
-			localConn.Close()
-			dstServer.Close()
+			___VlocalConn.Close()
+			__VdstServer.Close()
 		}
 	}()
-	// 从 dstServer 读取数据发送到 localUser，这里因为处在翻墙阶段出现网络错误的概率更大
+	// 从 __VdstServer 读取数据发送到 localUser，这里因为处在翻墙阶段出现网络错误的概率更大
 	(&_STsecureTCPConn{
-		Cipher:          localConn.Cipher,
-		ReadWriteCloser: dstServer,
-	}).EncodeCopy(localConn)
+		Cipher:          ___VlocalConn.Cipher,
+		ReadWriteCloser: __VdstServer,
+	}).EncodeCopy(___VlocalConn)
 }
